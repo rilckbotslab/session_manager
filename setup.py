@@ -11,9 +11,9 @@ if os.path.exists("README.md"):
     README = open("README.md").read()
 
 setup(
-    name="session_manager",
+    name="botslab",
     version="0.1.0",
-    description="A session manager for bot automation",
+    description="Botslab General Library",
     long_description=README,
     long_description_content_type="text/markdown",
     author="rilckbotslab",
