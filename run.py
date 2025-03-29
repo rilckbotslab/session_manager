@@ -1,5 +1,10 @@
 
+import os
+from vault import vault
+from database import YudqsLogs
 from browser import BrowserRemote
+from dotenv import load_dotenv
+load_dotenv()
 
 def main():
     # Create a new instance of the browser
