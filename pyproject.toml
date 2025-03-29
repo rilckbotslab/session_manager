@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "botslab"
+version = "0.1.0"
+description = "Botslab General Library"
+readme = "README.md"
+authors = [
+    {name = "rilckbotslab", email = "rilck.lima@botslab.com.br"}
+]
+requires-python = ">=3.7"
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "redis==5.0.1",
+    "python-dotenv==1.0.1",
+    "hvac==1.2.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/rilckbotslab/session_manager"
