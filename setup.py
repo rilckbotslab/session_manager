@@ -15,14 +15,14 @@ setup(
     version="0.1.0",
     long_description=README,
     long_description_content_type="text/markdown",
-    author="Rilck",
+    author="rilckbotslab",
     author_email="rilck.lima@botslab.com.br",
     url="https://github.com/rilckbotslab/session_manager",
     install_requires=REQUIRED_PACKAGES,    
     packages=find_packages(
         include=[
-            "botslab",
-            "botslab.*",
+            "session_manager",
+            "session_manager.*",
         ]
     ),
     platforms="any",
