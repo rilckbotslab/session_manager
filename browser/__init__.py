@@ -1,7 +1,8 @@
-from .browser import Browser
+from .browser import Browser, BrowserRemote
 from . import exceptions
 
 __all__ = [
-    "Browser",   
+    "Browser",
+    "BrowserRemote",   
     "exceptions", 
 ]

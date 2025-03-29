@@ -29,13 +29,10 @@ import uuid
 import shutil
 from logger import logger
 
-class Browser:
+class _Browser:
     driver: webdriver.Chrome
     driver_wait: WebDriverWait
     actions: ActionChains
-
-    def __init__(self, profile:str = None, options:Options = None) -> None:
-        self.setup_browser(profile, options)
 
     @contextmanager
     def on_new_window(self, url: str) -> Iterator[None]:
@@ -286,6 +283,16 @@ class Browser:
         
         logger.debug(f"Download directory set to {self.TEMP_DOWNLOAD_DIR}")
 
+
+    
+class Browser(_Browser):
+    def __init__(self, profile: str = None, options: Options = None) -> None:
+        self.driver = None
+        self.driver_wait = None
+        self.actions = None
+        self.TEMP_DOWNLOAD_DIR = None
+        self.setup_browser(profile, options)
+    
     def setup_browser(self, profile: str, options: Options) -> None:
         """Configura o navegador com as configurações necessárias
         ----
@@ -320,3 +327,33 @@ class Browser:
 
         self.driver_wait = WebDriverWait(self.driver, 10)
         self.actions = ActionChains(self.driver)
+
+class BrowserRemote(Browser):
+    def __init__(self, remote_url: str, options: Options = None) -> None:
+        self.driver = None
+        self.driver_wait = None
+        self.actions = None
+        self.TEMP_DOWNLOAD_DIR = None
+        self.setup_browser(remote_url, options)
+    
+    def setup_browser(self, remote_url: str, options: Options, vnc:bool = True) -> None:
+        """Configura o navegador com as configurações necessárias"""
+        options = options or webdriver.Chrome()
+        
+        options.capabilities["selenoid:options"] = {
+            "enableVNC": vnc,
+            "enableVideo": False,
+            "name": "str(uuid.uuid4())",            
+            "timezone": "America/Sao_Paulo",
+            "sessionTimeout": "5m",
+            "env": ["LANG=pt-BR.UTF-8", "LANGUAGE=pt-BR:pt", "LC_ALL=pt-BR.UTF-8"]
+        }
+        
+        self.driver = webdriver.Remote(
+            command_executor=remote_url,
+            options=options,
+        )
+        self.driver_wait = WebDriverWait(self.driver, 10)
+        self.actions = ActionChains(self.driver)
+        
+        
