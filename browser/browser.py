@@ -286,14 +286,22 @@ class _Browser:
 
     
 class Browser(_Browser):
-    def __init__(self, profile: str = None, options: Options = None) -> None:
+    def __init__(self, profile: str = None, options: Options = None, vnc: bool = False) -> None:
         self.driver = None
         self.driver_wait = None
         self.actions = None
         self.TEMP_DOWNLOAD_DIR = None
-        self.setup_browser(profile, options)
+        
+        remote_url = os.environ.get("BROWSER_HUB_URL")
+        
+        if not remote_url:
+            # Local browser
+            self.local_setup_browser(profile, options)
+        else:
+            self.remote_setup_browser(remote_url, options, vnc)
+        
     
-    def setup_browser(self, profile: str, options: Options) -> None:
+    def local_setup_browser(self, profile: str, options: Options) -> None:
         """Configura o navegador com as configurações necessárias
         ----
         Args:
@@ -328,17 +336,10 @@ class Browser(_Browser):
         self.driver_wait = WebDriverWait(self.driver, 10)
         self.actions = ActionChains(self.driver)
 
-class BrowserRemote(Browser):
-    def __init__(self, remote_url: str, options: Options = None) -> None:
-        self.driver = None
-        self.driver_wait = None
-        self.actions = None
-        self.TEMP_DOWNLOAD_DIR = None
-        self.setup_browser(remote_url, options)
-    
-    def setup_browser(self, remote_url: str, options: Options, vnc:bool = True) -> None:
+
+    def remote_setup_browser(self, remote_url: str, options: Options, vnc:bool = True) -> None:
         """Configura o navegador com as configurações necessárias"""
-        options = options or webdriver.Chrome()
+        options = options or Options()
         
         options.capabilities["selenoid:options"] = {
             "enableVNC": vnc,
@@ -355,5 +356,4 @@ class BrowserRemote(Browser):
         )
         self.driver_wait = WebDriverWait(self.driver, 10)
         self.actions = ActionChains(self.driver)
-        
-        
+
