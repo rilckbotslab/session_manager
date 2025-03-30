@@ -283,7 +283,6 @@ class _Browser:
         
         logger.debug(f"Download directory set to {self.TEMP_DOWNLOAD_DIR}")
 
-
     
 class Browser(_Browser):
     def __init__(self, profile: str = None, options: Options = None, vnc: bool = False) -> None:
