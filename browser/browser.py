@@ -129,7 +129,7 @@ class _Browser:
             return self.__get_element(xpath, ec=condition)
         return self.driver.find_elements(By.XPATH, xpath)
 
-    def find_element(self, xpath: str, condition: str = None, retry: int = 1) -> List[WebElement]:
+    def find_element(self, xpath: str, condition: str = None, retry: int = 1) -> List[WebElement] | WebElement:
         """Wait until the element is located."""
         return self.__get_element(xpath, ec=condition, retry=retry)
 
